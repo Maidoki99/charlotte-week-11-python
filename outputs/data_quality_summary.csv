@@ -1,0 +1,6 @@
+metric,value
+source_rows,150
+training_rows,120
+test_rows,30
+transformed_features,9
+missing_source_cells,11

@@ -1,0 +1,9 @@
+metric,value
+las_depth_rows,8
+scada_input_rows,18
+matched_las_rows,17
+unmatched_las_rows,1
+unmatched_depths_m,1499
+missing_pressure_rows,1
+output_rows,18
+output_columns,16

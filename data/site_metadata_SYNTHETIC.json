@@ -1,0 +1,16 @@
+{
+  "sites": [
+    {
+      "lab_site": "NORTH",
+      "region": "Region_1"
+    },
+    {
+      "lab_site": "EAST",
+      "region": "Region_2"
+    },
+    {
+      "lab_site": "WEST",
+      "region": "Region_3"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "provenance": {
+    "measurements_source": "Public-derived subset (first 180 rows, 4 geometric features) from scikit-learn load_breast_cancer (UCI WDBC); clinical diagnosis labels intentionally omitted.",
+    "synthetic_alterations": "Synthetic sample_id, lab_site, instrument, site_metadata_SYNTHETIC.json, and injected missing/non-positive values for educational data wrangling only.",
+    "clinical_disclaimer": "Educational preprocessing artifact only; must not be used for medical diagnosis or clinical decisions."
+  },
+  "split": {
+    "strategy": "80/20 train_test_split",
+    "random_state": 42,
+    "total_input_rows": 180,
+    "excluded_invalid_rows": 1,
+    "valid_rows": 179,
+    "train_rows": 143,
+    "test_rows": 36
+  },
+  "cleaning_decisions": {
+    "invalid_mean_area": "Rows with mean_area <= 0 (SMP-0008, mean_area=-15.0) are excluded from train/test matrices and recorded in general_quality_report.csv.",
+    "missing_values": "Valid rows with missing numeric measurements are retained and imputed using training-set medians only.",
+    "outliers": "1.5*IQR outlier candidates are flagged in general_quality_report.csv and retained rather than blindly deleted.",
+    "unmatched_site_rule": "Left join on lab_site; unmatched keys map to region='UNMAPPED_SITE' with unmatched_site_flag=1."
+  },
+  "engineered_features": {
+    "area_per_radius_sq": "mean_area / (mean_radius ** 2) after training-only median imputation, guarded for mean_radius > 0.",
+    "texture_perimeter_ratio": "mean_texture / mean_perimeter after training-only median imputation, guarded for mean_perimeter > 0."
+  },
+  "processed_columns": [
+    "sample_id",
+    "num__mean_radius",
+    "num__mean_texture",
+    "num__mean_perimeter",
+    "num__mean_area",
+    "num__area_per_radius_sq",
+    "num__texture_perimeter_ratio",
+    "cat__lab_site_EAST",
+    "cat__lab_site_NORTH",
+    "cat__lab_site_WEST",
+    "cat__region_Region_1",
+    "cat__region_Region_2",
+    "cat__region_Region_3",
+    "cat__instrument_SCAN_A",
+    "cat__instrument_SCAN_B"
+  ]
+}
