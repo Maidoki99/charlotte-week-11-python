@@ -92,7 +92,7 @@ def build_quality_summary(scada_df, las_df, merged_df, featured_df) -> pd.DataFr
         {"metric": "las_input_rows", "value": int(len(las_df))},
         {"metric": "merged_rows", "value": int(len(merged_df))},
         {"metric": "output_rows", "value": int(len(featured_df))},
-        {"metric": "output_columns", "value": int(featured_df.shape)},
+        {"metric": "output_columns", "value": len(featured_df.columns)},
         {"metric": "scada_missing_pressure_psi", "value": int(scada_df["pressure_psi"].isna().sum())},
         {"metric": "scada_missing_temperature_c", "value": int(scada_df["temperature_c"].isna().sum())},
         {"metric": "scada_missing_flow_m3_h", "value": int(scada_df["flow_m3_h"].isna().sum())},
@@ -122,7 +122,7 @@ def run_pipeline(
 
 def main() -> None:
     featured_df, summary_df = run_pipeline()
-    print(f"Engineered features written: {len(featured_df)} rows x {featured_df.shape} columns")
+    print(f"Engineered features written: {len(featured_df)} rows x {featured_df.shape[1]} columns")
     print(summary_df.to_string(index=False))
 
 

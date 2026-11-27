@@ -15,14 +15,14 @@ class TestFeaturePipeline(unittest.TestCase):
     def test_duplicate_keys_fail_validation(self):
         scada = load_scada(DATA_DIR / "scada_synthetic.csv")
         las = load_las(DATA_DIR / "well_b_synthetic.las")
-        dup_scada = pd.concat([scada, scada.iloc[]], ignore_index=True)
+        dup_scada = pd.concat([scada, scada.iloc[[0]]], ignore_index=True)
         with self.assertRaises(ValueError):
             merge_inputs(las, dup_scada)
 
     def test_well_boundary_isolation_and_trailing_window(self):
         sample = pd.DataFrame({
             "well_id": ["W1", "W1", "W1", "W2", "W2"],
-            "depth_m":,
+            "depth_m": [100.0, 101.0, 102.0, 100.0, 101.0],
             "pressure_psi": [100.0, 110.0, 120.0, 500.0, 505.0],
             "temperature_c": [50.0, 51.0, 52.0, 80.0, 82.0],
             "flow_m3_h": [10.0, np.nan, 12.0, 20.0, 25.0],
@@ -30,12 +30,12 @@ class TestFeaturePipeline(unittest.TestCase):
             "density_g_cm3": [2.0, 2.0, 2.0, 2.5, 2.5],
         })
         out = engineer_features(sample)
-        w2_first = out.loc[(out["well_id"] == "W2") & (out["depth_m"] == 100)].iloc
+        w2_first = out.loc[(out["well_id"] == "W2") & (out["depth_m"] == 100.0)].iloc[0]
         self.assertTrue(pd.isna(w2_first["pressure_delta_psi"]))
         self.assertTrue(pd.isna(w2_first["pressure_var_3"]))
-        w1_third = out.loc[(out["well_id"] == "W1") & (out["depth_m"] == 102)].iloc
+        w1_third = out.loc[(out["well_id"] == "W1") & (out["depth_m"] == 102.0)].iloc[0]
         self.assertAlmostEqual(float(w1_third["pressure_var_3"]), 200.0 / 3.0, places=5)
-        self.assertEqual(int(out.loc[out["flow_m3_h"].isna(), "flow_missing_flag"].iloc), 1)
+        self.assertEqual(int(out.loc[out["flow_m3_h"].isna(), "flow_missing_flag"].iloc[0]), 1)
 
     def test_end_to_end_pipeline_outputs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
