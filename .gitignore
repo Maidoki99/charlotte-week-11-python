@@ -1,4 +1,12 @@
 .venv/
 __pycache__/
-.pytest_cache/
 .ipynb_checkpoints/
+.env
+*.pyc
+.pytest_cache/
+outputs/
+day2/
+day3/
+day4/
+teaching/
+onedrive_submission/
